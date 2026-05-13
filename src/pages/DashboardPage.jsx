@@ -34,10 +34,8 @@ const STATS = [
 ];
 
 const DashboardPage = () => {
-
-
   const navigate = useNavigate();
-    const { user } = useAuth();
+  const { user } = useAuth();
 
   return (
       <AdminLayout>

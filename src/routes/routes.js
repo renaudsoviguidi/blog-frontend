@@ -9,7 +9,6 @@ export const myroutes = {
 
   /// - Administration
   dashboard: "/admin/dashboard",
-  post_create: "/admin/posts/create",
-  post_edit:   "/admin/posts/edit",
-  posts:       "/admin/posts",
+  categories: "/admin/categories",
+  tags: "/admin/tags",
 };

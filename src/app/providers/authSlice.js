@@ -17,20 +17,16 @@ export const auth = createSlice({
   reducers: {
     // authentification
     loginUser(state, action) {
-      state.token = "";
-      state.isAuthenticate = false;
+      const { user, token, refreshToken } = action.payload.data;
 
-      const payload = action.payload.data;
-
-      state.user = payload.user; // Mettre à jour l'utilisateur avec les données reçues
-      state.token = payload.token;
-      state.refreshToken = payload.refreshToken;
-      state.isAuthenticate = true;
-
-      //Recupérer les profils de l'utilisateur
-      state.roles = payload.user.roles;
-
-      state.habilitations = payload.user.habilitations;
+      Object.assign(state, {
+          user,
+          token,
+          refreshToken,
+          isAuthenticate: true,
+          roles: user.roles,
+          habilitations: user.habilitations,
+      });
     },
 
     /// - Mettre à jour le token
@@ -58,18 +54,22 @@ export const auth = createSlice({
     checkAuthenticate(state) {
       let statut = false;
       if (state.token) {
-        const decodedToken = jwtDecode(state.token);
-        const currentDate = new Date().getTime() / 1000; // Convertir la date actuelle en secondes
-        if (decodedToken.exp < currentDate && !state.refreshToken) {
-          // Le token a expiré
+        try {
+          const decodedToken = jwtDecode(state.token);
+          const currentDate = new Date().getTime() / 1000; // Convertir la date actuelle en secondes
+          
+          const isExpired = decodedToken.exp < currentDate;
+          if (isExpired && !state.refreshToken) {
+              statut = false;
+          } else if (isExpired && state.refreshToken) {
+              statut = true;
+          } else {
+              statut = true;
+          }
+        } catch {
           statut = false;
-        } else {
-          statut = true;
         }
-      } else {
-        statut = false;
       }
-
       state.isAuthenticate = statut;
 
       if (!statut) {
@@ -88,3 +88,21 @@ export const { loginUser, checkAuthenticate, resetAuthData, updateToken } =
   auth.actions;
 
 export default auth.reducer;
+
+
+// ─── Selectors ───────────────────────────────────────────────────────────────
+
+export const selectIsAuthenticate = (state) => state.auth.isAuthenticate;
+export const selectUser = (state) => state.auth.user;
+export const selectToken = (state) => state.auth.token;
+export const selectRefreshToken = (state) => state.auth.refreshToken;
+export const selectRoles = (state) => state.auth.roles;
+export const selectHabilitations = (state) => state.auth.habilitations;
+
+/// - Selector dérivé — vérifie si l'utilisateur possède une permission précise
+export const selectHasPermission = (permission) => (state) =>
+  state.auth.habilitations.includes(permission);
+
+/// - Selector dérivé — vérifie si l'utilisateur possède un rôle précis
+export const selectHasRole = (role) => (state) =>
+  state.auth.roles.includes(role);

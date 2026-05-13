@@ -1,78 +1,130 @@
 import { useEffect, useState } from "react";
 import { CheckCircle, XCircle, AlertTriangle, Info, X } from "lucide-react";
 
-const STYLES = {
+const CONFIG = {
   success: {
-    bar:  "bg-emerald-500",
-    icon: <CheckCircle size={18} className="text-emerald-500" />,
-    title: "text-emerald-700",
+    border: "#10b981",
+    icon: CheckCircle,
+    color: "#10b981",
+    bg: "#f0fdf4",
+    title: "#065f46",
   },
   error: {
-    bar:  "bg-red-500",
-    icon: <XCircle size={18} className="text-red-500" />,
-    title: "text-red-700",
+    border: "#ef4444",
+    icon: XCircle,
+    color: "#ef4444",
+    bg: "#fef2f2",
+    title: "#991b1b",
   },
   warning: {
-    bar:  "bg-amber-400",
-    icon: <AlertTriangle size={18} className="text-amber-500" />,
-    title: "text-amber-700",
+    border: "#f59e0b",
+    icon: AlertTriangle,
+    color: "#f59e0b",
+    bg: "#fffbeb",
+    title: "#92400e",
   },
   info: {
-    bar:  "bg-sky-500",
-    icon: <Info size={18} className="text-sky-500" />,
-    title: "text-sky-700",
+    border: "#0284c7",
+    icon: Info,
+    color: "#0284c7",
+    bg: "#f0f7ff",
+    title: "#075985",
   },
 };
 
-const Toast = ({ id, type, title, message, onClose }) => {
+const ToastItem = ({ id, type, title, message, onClose }) => {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    // Entrée avec un léger délai pour déclencher l'animation
     const t = setTimeout(() => setVisible(true), 10);
     return () => clearTimeout(t);
   }, []);
 
   const handleClose = () => {
     setVisible(false);
-    setTimeout(() => onClose(id), 300);
+    setTimeout(() => onClose(id), 280);
   };
 
-  const s = STYLES[type] || STYLES.info;
+  const c = CONFIG[type] ?? CONFIG.info;
+  const Icon = c.icon;
 
   return (
     <div
-      className="pointer-events-auto"
       style={{
-        transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+        transition: "all .28s cubic-bezier(.4,0,.2,1)",
         opacity: visible ? 1 : 0,
         transform: visible ? "translateX(0)" : "translateX(100%)",
+        pointerEvents: "auto",
       }}
     >
       <div
-        className="relative flex items-start gap-3 bg-white rounded-2xl shadow-xl border border-slate-100 overflow-hidden"
-        style={{ minWidth: "320px", maxWidth: "400px", padding: "14px 16px" }}
+        style={{
+          position: "relative",
+          display: "flex",
+          alignItems: "flex-start",
+          gap: ".75rem",
+          padding: ".9rem 1rem",
+          background: c.bg,
+          border: `1px solid ${c.border}25`,
+          borderLeft: `4px solid ${c.border}`,
+          borderRadius: "1rem",
+          boxShadow: "0 8px 32px rgba(0,0,0,.1)",
+          minWidth: 320,
+          maxWidth: 400,
+          fontFamily: "'Plus Jakarta Sans', sans-serif",
+        }}
       >
-        {/* Barre colorée gauche */}
-        <div className={`absolute left-0 top-0 bottom-0 w-1 rounded-l-2xl ${s.bar}`} />
-
         {/* Icône */}
-        <div className="mt-0.5 shrink-0">{s.icon}</div>
+        <Icon
+          size={17}
+          color={c.color}
+          style={{ flexShrink: 0, marginTop: ".1rem" }}
+        />
 
         {/* Contenu */}
-        <div className="flex-1 min-w-0">
-          <p className={`text-sm font-semibold ${s.title}`}>{title}</p>
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <p
+            style={{
+              fontSize: ".875rem",
+              fontWeight: 600,
+              color: c.title,
+              lineHeight: 1.4,
+            }}
+          >
+            {title}
+          </p>
           {message && (
-            <p className="text-xs text-slate-500 mt-0.5 leading-relaxed">{message}</p>
+            <p
+              style={{
+                fontSize: ".78rem",
+                color: "#64748b",
+                marginTop: ".2rem",
+                lineHeight: 1.5,
+              }}
+            >
+              {message}
+            </p>
           )}
         </div>
 
-        {/* Bouton fermer */}
+        {/* Fermer */}
         <button
           onClick={handleClose}
-          className="shrink-0 text-slate-300 hover:text-slate-500 transition-colors mt-0.5"
+          style={{
+            background: "none",
+            border: "none",
+            cursor: "pointer",
+            padding: ".1rem",
+            color: "#94a3b8",
+            flexShrink: 0,
+            display: "flex",
+            alignItems: "center",
+            transition: "color .15s",
+          }}
+          onMouseEnter={(e) => (e.currentTarget.style.color = "#475569")}
+          onMouseLeave={(e) => (e.currentTarget.style.color = "#94a3b8")}
         >
-          <X size={15} />
+          <X size={14} />
         </button>
       </div>
     </div>
@@ -84,11 +136,19 @@ const ToastContainer = ({ toasts, removeToast }) => {
 
   return (
     <div
-      className="fixed top-5 right-5 z-50 flex flex-col gap-3 pointer-events-none"
-      style={{ fontFamily: "'DM Sans', 'Segoe UI', sans-serif" }}
+      style={{
+        position: "fixed",
+        top: "1.25rem",
+        right: "1.25rem",
+        zIndex: 9999,
+        display: "flex",
+        flexDirection: "column",
+        gap: ".6rem",
+        pointerEvents: "none",
+      }}
     >
       {toasts.map((t) => (
-        <Toast key={t.id} {...t} onClose={removeToast} />
+        <ToastItem key={t.id} {...t} onClose={removeToast} />
       ))}
     </div>
   );

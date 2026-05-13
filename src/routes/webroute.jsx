@@ -1,13 +1,27 @@
 import React from 'react'
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { myroutes } from './routes';
 import LoginPage from '../pages/LoginPage';
 import HomePage from '../pages/HomePage';
 import DashboardPage from '../pages/DashboardPage';
 import VerifyEmailPage from '../pages/VerifyEmailPage';
 import ForgotPasswordPage from '../pages/ForgotPasswordPage';
-import PostsList from '../pages/admin/posts/PostsList';
-import PostCreate from '../pages/admin/posts/PostCreate';
+import CategoriesPage from '../features/categories/CategoriesPage';
+import { useSelector } from 'react-redux';
+import { selectHasPermission, selectIsAuthenticate } from '../app/providers/authSlice';
+import TagsPage from '../features/tags/TagPage';
+
+
+const PrivateRoute = ({ children, permission }) => {
+
+    const isAuthenticate  = useSelector(selectIsAuthenticate);
+    const hasPermission   = useSelector(selectHasPermission(permission));
+
+    if (!isAuthenticate) return <Navigate to={myroutes.login} replace />;
+    if (permission && !hasPermission) return <Navigate to={myroutes.dashboard} replace />;
+
+    return children;
+};
 
 const Webroute = () => {
 
@@ -22,10 +36,25 @@ const Webroute = () => {
         {/* End Authentification */}
 
         {/* Administration */}
-        <Route path={myroutes.dashboard} name="dashboard" element={<DashboardPage />} />
-        <Route path="/admin/posts"         element={<PostsList />} />
-        <Route path="/admin/posts/create"  element={<PostCreate />} />
-        <Route path="/admin/posts/edit/:id" element={<PostCreate />} />
+        <Route path={myroutes.dashboard} element={
+            <PrivateRoute>
+                <DashboardPage />
+            </PrivateRoute>
+        } />
+
+        <Route path={myroutes.categories} element={
+            <PrivateRoute permission="category.read">
+                <CategoriesPage />
+            </PrivateRoute>
+        } />
+
+        <Route path={myroutes.tags} element={
+            <PrivateRoute permission="tag.read">
+                <TagsPage />
+            </PrivateRoute>
+        } />
+
+        {/* <Route path={myroutes.categories} name="categories" element={<CategoriesPage />} /> */}
         {/* End Administration */}
 
 

@@ -1,29 +1,29 @@
 import { useState, useCallback } from "react";
 
-let toastId = 0;
+const useToast = (duration = 3500) => {
+    const [toasts, setToasts] = useState([]);
 
-export const useToast = () => {
-  const [toasts, setToasts] = useState([]);
+    const show = useCallback((message, type = "success") => {
+        const id = Date.now();
+        setToasts(prev => [...prev, { id, message, type }]);
+        setTimeout(() => {
+            setToasts(prev => prev.filter(t => t.id !== id));
+        }, duration);
+    }, [duration]);
 
-  const addToast = useCallback(({ type = "info", title, message, duration = 4000 }) => {
-    const id = ++toastId;
-    setToasts((prev) => [...prev, { id, type, title, message }]);
-    if (duration > 0) {
-      setTimeout(() => removeToast(id), duration);
-    }
-    return id;
-  }, []);
+    const removeToast = useCallback((id) => {
+        setToasts(prev => prev.filter(t => t.id !== id));
+    }, []);
 
-  const removeToast = useCallback((id) => {
-    setToasts((prev) => prev.filter((t) => t.id !== id));
-  }, []);
+    // Raccourcis — compatibles avec ton LoginForm existant
+    const toast = {
+        success: (message) => show(message, "success"),
+        error:   (message) => show(message, "error"),
+        info:    (message) => show(message, "info"),
+        warning: (message) => show(message, "warning"),
+    };
 
-  const toast = {
-    success: (message, title = "Succès")        => addToast({ type: "success", title, message }),
-    error:   (message, title = "Erreur")        => addToast({ type: "error",   title, message }),
-    warning: (message, title = "Attention")     => addToast({ type: "warning", title, message }),
-    info:    (message, title = "Information")   => addToast({ type: "info",    title, message }),
-  };
-
-  return { toasts, toast, removeToast };
+    return { toasts, show, toast, removeToast };
 };
+
+export default useToast;

@@ -3,10 +3,10 @@ import { useNavigate } from "react-router-dom";
 import { Mail, Lock, Pencil, Eye, EyeOff } from "lucide-react";
 import Input from "../../../components/ui/Input";
 import Button from "../../../components/ui/Button";
-import { useToast } from "../../../hooks/useToast";
 import ToastContainer from "../../../components/ui/ToastContainer";
 import { forgotPassword, resetPassword, verifyOtp } from "../api";
 import { myroutes } from "../../../routes/routes";
+import useToast from "../../../hooks/useToast";
 
 const ForgotPasswordForm = () => {
   const navigate = useNavigate();

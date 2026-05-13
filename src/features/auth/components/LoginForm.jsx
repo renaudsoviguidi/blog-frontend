@@ -6,8 +6,8 @@ import Input from "../../../components/ui/Input";
 import Alert from "../../../components/ui/Alert";
 import { Eye, EyeOff, Lock, Mail, Pencil, User } from "lucide-react";
 import ToastContainer from "../../../components/ui/ToastContainer";
-import { useToast } from "../../../hooks/useToast";
 import { myroutes } from "../../../routes/routes";
+import useToast from "../../../hooks/useToast";
 
 
 function GoogleIcon() {
@@ -64,7 +64,7 @@ const LoginForm = () => {
         message = await login(email, password);
 
         toast.success(message);
-        setTimeout(() => navigate(myroutes.homepage), 2000);
+        setTimeout(() => navigate(myroutes.dashboard), 2000);
       } else {
         if (!name.trim()) {
           toast.error("Le nom complet est requis.");

@@ -1,25 +1,31 @@
 import React, { useState } from "react";
 import { myroutes } from "../../../routes/routes";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../../features/auth/hooks";
-import { File, LayoutDashboard, LayoutGrid, LogOut, Menu, MessageCircle, Newspaper, Pencil, Settings, Users } from "lucide-react";
+import { LayoutDashboard, LayoutGrid, LogOut, Menu, MessageCircle, Newspaper, Pencil, Settings, Tag, Users } from "lucide-react";
 
 /// - Menus
 const NAV_ITEMS = [
-    { icon: "▪", label: "Tableau de bord", id: "dashboard", active: true },
-    { icon: "▪", label: "Articles", id: "posts" },
-    { icon: "▪", label: "Commentaires", id: "comments" },
-    { icon: "▪", label: "Catégories", id: "categories" },
-    { icon: "▪", label: "Utilisateurs", id: "users" },
-    { icon: "▪", label: "Paramètres", id: "settings" },
+    { icon: "▪", label: "Tableau de bord", id: "dashboard", route: myroutes.dashboard },
+    { icon: "▪", label: "Articles", id: "posts", route: myroutes.posts},
+    { icon: "▪", label: "Commentaires", id: "comments", route: "" },
+    { icon: "▪", label: "Catégories", id: "categories", route: myroutes.categories },
+    { icon: "▪", label: "Tags", id: "tags", route: myroutes.tags },
+    { icon: "▪", label: "Utilisateurs", id: "users", route: "" },
+    { icon: "▪", label: "Paramètres", id: "settings", route: "" },
 ];
 
 const AppSideBar = () => {
 
     const [sidebarOpen, setSidebarOpen] = useState(true);
-    const [activeNav, setActiveNav] = useState("dashboard");
     const navigate = useNavigate();
+    const location = useLocation();
     const { user, logout } = useAuth();
+
+    /// - Dérive l'item actif depuis l'URL
+    const activeNav = NAV_ITEMS.find(
+        (item) => item.route === location.pathname
+    )?.id || "dashboard";
 
     async function handleLogout() {
         await logout();
@@ -58,7 +64,7 @@ return (
         <div
             key={item.id}
             className={`db-nav-item ${activeNav === item.id ? "active" : ""}`}
-            onClick={() => setActiveNav(item.id)}
+            onClick={() => navigate(item.route)}
             title={!sidebarOpen ? item.label : undefined}
         >
             <div className="db-nav-icon">
@@ -73,6 +79,9 @@ return (
             )}
             {item.id === "categories" && (
                 <LayoutGrid className="w-[1.1rem] h-[1.1rem]" />
+            )}
+            {item.id === "tags" && (
+                <Tag className="w-[1.1rem] h-[1.1rem]" />
             )}
             {item.id === "users" && (
                 <Users className="w-[1.1rem] h-[1.1rem]" />
