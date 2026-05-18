@@ -11,4 +11,5 @@ export const myroutes = {
   dashboard: "/admin/dashboard",
   categories: "/admin/categories",
   tags: "/admin/tags",
+  posts: "/admin/posts",
 };

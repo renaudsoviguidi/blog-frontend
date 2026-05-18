@@ -10,6 +10,7 @@ import CategoriesPage from '../features/categories/CategoriesPage';
 import { useSelector } from 'react-redux';
 import { selectHasPermission, selectIsAuthenticate } from '../app/providers/authSlice';
 import TagsPage from '../features/tags/TagPage';
+import PostsPage from '../features/posts/PostsPage';
 
 
 const PrivateRoute = ({ children, permission }) => {
@@ -51,6 +52,12 @@ const Webroute = () => {
         <Route path={myroutes.tags} element={
             <PrivateRoute permission="tag.read">
                 <TagsPage />
+            </PrivateRoute>
+        } />
+
+        <Route path={myroutes.posts} element={
+            <PrivateRoute permission="post.read">
+                <PostsPage />
             </PrivateRoute>
         } />
 

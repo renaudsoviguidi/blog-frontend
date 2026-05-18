@@ -18,14 +18,20 @@ const postService = {
     update: (ref, formData) =>
         http.patch(`${BASE}/${ref}`, formData),
 
+    getOne: (ref) => 
+        http.get(`${BASE}/${ref}`),
+
+    getForEdit: (ref) =>
+        http.get(`${BASE}/${ref}/edit`),
+
     delete: (ref) =>
         http.delete(`${BASE}/${ref}`),
 
     publish: (ref) =>
         http.patch(`${BASE}/${ref}/publish`),
 
-    reject: (ref) =>
-        http.patch(`${BASE}/${ref}/reject`),
+    reject: (ref, reason) =>
+        http.patch(`${BASE}/${ref}/reject`, { reason }),
 };
 
 export default postService;
