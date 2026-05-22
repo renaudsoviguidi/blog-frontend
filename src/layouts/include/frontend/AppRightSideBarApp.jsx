@@ -1,5 +1,7 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom';
+import Button from '../../../components/ui/Button';
+import { ChartSpline, Flame, Shredder } from 'lucide-react';
 
 const RECOMMENDED = [
     { id: 3, title: "React 19 : ce que chaque dev doit savoir", category: "Frontend", readTime: "5 min", color: "#6366f1" },
@@ -45,12 +47,17 @@ const AppRightSideBarApp = () => {
                 <div className="hp-widget">
                 <div className="hp-widget-title">Newsletter</div>
                 <div className="hp-newsletter">
-                    <div className="hp-newsletter-title">📬 Restez informé</div>
+                    <div className="hp-newsletter-title flex items-center gap-1"><Shredder className="w-[1.1rem] h-[1.1rem]" /> Restez informé</div>
                     <p className="hp-newsletter-desc">
                     Recevez les nouveaux articles directement dans votre boîte mail. Pas de spam.
                     </p>
                     <input className="hp-newsletter-input" type="email" placeholder="votre@email.com" />
-                    <button className="hp-newsletter-btn">S'abonner gratuitement</button>
+                    <Button
+                        variant="primary"
+                        style={{ width: '100%', marginTop: '.5rem' }}
+                    >
+                        S'abonner gratuitement
+                    </Button>
                 </div>
                 </div>
 
@@ -73,11 +80,11 @@ const AppRightSideBarApp = () => {
 
                 {/* Tendances */}
                 <div className="hp-widget">
-                <div className="hp-widget-title">🔥 Tendances</div>
+                <div className="hp-widget-title flex items-center gap-1"><Flame className="w-[1.1rem] h-[1.1rem]" /> Tendances</div>
                 <div className="hp-trending-list">
                     {TRENDING.map((post) => (
                     <div key={post.id} className="hp-trending-item" onClick={() => navigate(`/articles/${post.id}`)}>
-                        <div className="hp-trending-icon">📈</div>
+                        <div className="hp-trending-icon"><ChartSpline className="w-[1.1rem] h-[1.1rem]"/></div>
                         <div className="hp-trending-body">
                         <div className="hp-trending-title">{post.title}</div>
                         <div className="hp-trending-views">{post.views} vues</div>

@@ -69,7 +69,7 @@ import CoverUpload from "../../components/shared/CoverUpload";
                         }}>
                             {item.name}
                             <button
-                                onMouseDown={e => e.preventDefault()} // évite blur avant onRemove
+                                onMouseDown={e => e.preventDefault()} /// - évite blur avant onRemove
                                 onClick={e => { e.stopPropagation(); onRemove(item); }}
                                 style={{
                                     background: 'none', border: 'none',

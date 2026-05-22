@@ -36,6 +36,7 @@ const STATS = [
 const DashboardPage = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
+  console.log("Utilisateur connecté : ", user);
 
   return (
       <AdminLayout>

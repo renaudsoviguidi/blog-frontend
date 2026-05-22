@@ -15,8 +15,8 @@ const CoverUpload = ({
     onFile,
     onClear,
     label = "Image de couverture",
-    accept = "image/png,image/jpeg,image/svg+xml",
-    hint = "PNG, JPG, SVG — 5 Mo max",
+    accept = "image/png,image/jpeg,image/svg+xml,image/webp",
+    hint = "PNG, JPG, SVG, WebP — 5 Mo max",
 }) => {
     const ref = useRef();
 

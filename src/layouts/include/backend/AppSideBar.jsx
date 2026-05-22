@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { myroutes } from "../../../routes/routes";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../../features/auth/hooks";
 import { LayoutDashboard, LayoutGrid, LogOut, Menu, MessageCircle, Newspaper, Pencil, Settings, Tag, Users } from "lucide-react";
 
@@ -8,7 +8,7 @@ import { LayoutDashboard, LayoutGrid, LogOut, Menu, MessageCircle, Newspaper, Pe
 const NAV_ITEMS = [
     { icon: "▪", label: "Tableau de bord", id: "dashboard", route: myroutes.dashboard },
     { icon: "▪", label: "Articles", id: "posts", route: myroutes.posts},
-    { icon: "▪", label: "Commentaires", id: "comments", route: "" },
+    { icon: "▪", label: "Commentaires", id: "comments", route: myroutes.comments },
     { icon: "▪", label: "Catégories", id: "categories", route: myroutes.categories },
     { icon: "▪", label: "Tags", id: "tags", route: myroutes.tags },
     { icon: "▪", label: "Utilisateurs", id: "users", route: "" },
@@ -43,7 +43,7 @@ return (
             <Pencil className="w-[0.9rem] h-[0.9rem] stroke-[2.5]" />
         </div>
         {sidebarOpen && (
-            <span className="db-sidebar-logo-name">MonBlog</span>
+            <Link to={myroutes.homepage} target="_blank"> <span className="db-sidebar-logo-name">MonBlog</span></Link>
         )}
         </div>
         <button

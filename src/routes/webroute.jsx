@@ -11,6 +11,11 @@ import { useSelector } from 'react-redux';
 import { selectHasPermission, selectIsAuthenticate } from '../app/providers/authSlice';
 import TagsPage from '../features/tags/TagPage';
 import PostsPage from '../features/posts/PostsPage';
+import ArticlesPage from '../pages/public/ArticlesPage';
+import ArticleDetailPage from '../pages/public/ArticleDetailPage';
+import CategoriesPublicPage from '../pages/public/CategoriesPublicPage';
+import AboutPage from '../pages/public/AboutPage';
+import CommentsPage from '../features/comments/CommentsPage';
 
 
 const PrivateRoute = ({ children, permission }) => {
@@ -61,12 +66,23 @@ const Webroute = () => {
             </PrivateRoute>
         } />
 
+
+        <Route path={myroutes.comments} element={
+            <PrivateRoute permission="comment.moderate">
+                <CommentsPage />
+            </PrivateRoute>
+        } />
+
         {/* <Route path={myroutes.categories} name="categories" element={<CategoriesPage />} /> */}
         {/* End Administration */}
 
 
         {/* Public */}
         <Route path={myroutes.homepage} name="homepage" element={<HomePage />} />
+        <Route path={myroutes.articles} element={<ArticlesPage />} />
+        <Route path="/articles/:ref" element={<ArticleDetailPage />} />
+        <Route path={myroutes.publicCategories} element={<CategoriesPublicPage />} />
+        <Route path={myroutes.about} element={<AboutPage />} />
         {/* End Public */}
     </Routes>
   </BrowserRouter>

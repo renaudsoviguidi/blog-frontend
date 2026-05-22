@@ -72,7 +72,7 @@ const buildMultipartForm = (data) => {
     return fd;
 };
 
-// ── Page ──────────────────────────────────────────────────
+/// ─ Page
 const PostsPage = () => {
     const [search, setSearch] = useState("");
     const [status, setStatus] = useState("");
@@ -91,11 +91,11 @@ const PostsPage = () => {
     const [categories, setCategories] = useState([]);
     const [tags, setTags] = useState([]);
 
-    const [previewPost,  setPreviewPost]  = useState(null);
-    const [previewOpen,  setPreviewOpen]  = useState(false);
-    const [rejectOpen,   setRejectOpen]   = useState(false);
-    const [publishing,   setPublishing]   = useState(false);
-    const [rejecting,    setRejecting]    = useState(false);
+    const [previewPost, setPreviewPost] = useState(null);
+    const [previewOpen, setPreviewOpen]  = useState(false);
+    const [rejectOpen, setRejectOpen] = useState(false);
+    const [publishing, setPublishing] = useState(false);
+    const [rejecting, setRejecting] = useState(false);
 
     // Charger catégories et tags une seule fois
         useEffect(() => {
