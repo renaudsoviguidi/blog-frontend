@@ -18,5 +18,9 @@ export const myroutes = {
   categories: "/admin/categories",
   tags: "/admin/tags",
   posts: "/admin/posts",
-  comments: "/admin/comments"
+  comments: "/admin/comments",
+  settings: "/admin/settings",
+  newsletters: "/admin/settings/newsletters",
+  roles: '/admin/settings/roles',
+  users: '/admin/users',
 };

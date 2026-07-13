@@ -2,7 +2,8 @@ import React from 'react'
 import AdminLayout from '../layouts/AdminLayout'
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../features/auth/hooks';
-import { LayoutGrid, MessageCircleMore, Newspaper, Pencil, Trash, UsersRound } from 'lucide-react';
+import { LayoutGrid, MessageCircleMore, Newspaper, Pencil, Plus, Trash, UsersRound } from 'lucide-react';
+import { myroutes } from '../routes/routes';
 
 
 const RECENT_POSTS = [
@@ -36,7 +37,6 @@ const STATS = [
 const DashboardPage = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
-  console.log("Utilisateur connecté : ", user);
 
   return (
       <AdminLayout>
@@ -48,9 +48,9 @@ const DashboardPage = () => {
             <div className="db-welcome-name">{user?.name || "Administrateur"}</div>
             <div className="db-welcome-sub">Voici un aperçu de votre blog aujourd'hui — 26 mars 2026</div>
           </div>
-          <button className="db-welcome-action" onClick={() => navigate("/articles/new")}>
-            + Rédiger un article
-          </button>
+          <Link className="db-welcome-action" to={myroutes.posts}>
+            <Plus /> Rédiger un article
+          </Link>
         </div>
 
 

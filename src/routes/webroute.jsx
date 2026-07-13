@@ -16,6 +16,10 @@ import ArticleDetailPage from '../pages/public/ArticleDetailPage';
 import CategoriesPublicPage from '../pages/public/CategoriesPublicPage';
 import AboutPage from '../pages/public/AboutPage';
 import CommentsPage from '../features/comments/CommentsPage';
+import SettingsPage from '../pages/admin/settings/SettingsPage';
+import NewslettersPage from '../pages/admin/settings/NewslettersPage';
+import RolesPage from '../features/roles/RolesPage';
+import UsersPage from '../features/users/UsersPage';
 
 
 const PrivateRoute = ({ children, permission }) => {
@@ -43,7 +47,7 @@ const Webroute = () => {
 
         {/* Administration */}
         <Route path={myroutes.dashboard} element={
-            <PrivateRoute>
+            <PrivateRoute permission="dashboard.view">
                 <DashboardPage />
             </PrivateRoute>
         } />
@@ -70,6 +74,31 @@ const Webroute = () => {
         <Route path={myroutes.comments} element={
             <PrivateRoute permission="comment.moderate">
                 <CommentsPage />
+            </PrivateRoute>
+        } />
+
+
+        <Route path={myroutes.settings} element={
+            <PrivateRoute>
+                <SettingsPage />
+            </PrivateRoute>
+        } />
+
+        <Route path={myroutes.newsletters} element={
+            <PrivateRoute>
+                <NewslettersPage />
+            </PrivateRoute>
+        } />
+
+        <Route path={myroutes.roles} element={
+            <PrivateRoute permission="role.read">
+                <RolesPage />
+            </PrivateRoute>
+        } />
+
+        <Route path={myroutes.users} element={
+            <PrivateRoute permission="user.read">
+                <UsersPage />
             </PrivateRoute>
         } />
 

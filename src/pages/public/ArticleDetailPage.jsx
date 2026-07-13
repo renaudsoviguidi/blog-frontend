@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate }  from 'react-router-dom';
 import { ArrowLeft, Eye, Calendar, User, Tag } from 'lucide-react';
-import HomeLayout         from '../../layouts/HomeLayout';
+import HomeLayout from '../../layouts/HomeLayout';
 import publicPostService  from '../../services/publicPostService';
-import Spinner            from '../../components/ui/Spinner';
-import Button             from '../../components/ui/Button';
+import Spinner from '../../components/ui/Spinner';
+import Button from '../../components/ui/Button';
 import CommentSection from './CommentSection';
+import '../../styles/article-body.css';
 
 const ArticleDetailPage = () => {
     const { ref } = useParams();
@@ -168,15 +169,10 @@ const ArticleDetailPage = () => {
                     )}
 
                     {/* Contenu */}
-                    <div style={{
-                        fontSize: '.95rem',
-                        color: '#1e293b',
-                        lineHeight: 1.85,
-                        whiteSpace: 'pre-wrap',
-                        fontFamily: "'Plus Jakarta Sans', sans-serif",
-                    }}>
-                        {post.content}
-                    </div>
+                    <div
+                        className="article-body"
+                        dangerouslySetInnerHTML={{ __html: post.content }}
+                    />
 
                     <CommentSection postRef={ref} />
                 </article>

@@ -71,7 +71,7 @@ const PublishToggle = ({ post, onPublish, onReject }) => {
 };
 
 /// ─ Ligne du tableau
-const PostRow = ({ post, index, onPreview, onEdit, onDelete }) => (
+const PostRow = ({ post, index, isAdmin, onPreview, onEdit, onDelete }) => (
     <tr
         style={{ borderBottom: '1px solid #f8fafc', transition: 'background .15s' }}
         onMouseEnter={e => e.currentTarget.style.background = '#f8faff'}
@@ -174,17 +174,35 @@ const PostRow = ({ post, index, onPreview, onEdit, onDelete }) => (
                     <Eye size={13} />
                     Voir
                 </Button>
+                {isAdmin ? (
                 <ActionButtons
                     onEdit={() => onEdit(post)}
                     onDelete={() => onDelete(post)}
                 />
+                ) : (
+                    post.status === 'draft' && (
+                    <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => onEdit(post)}
+                        style={{
+                            background: '#fef9c3',
+                            color: '#a16207',
+                            border: '1px solid #fde68a',
+                            borderRadius: '.5rem',
+                        }}
+                    >
+                        Modifier
+                    </Button>
+                    )
+                )}
             </div>
         </td>
     </tr>
 );
 
-// ── PostList ──────────────────────────────────────────────
-const PostList = ({ items, onPreview, onEdit, onDelete }) => (
+// ── PostList
+const PostList = ({ items, isAdmin, onPreview, onEdit, onDelete }) => (
     <div style={{ overflowX: 'auto' }}>
         <table style={{ width: '100%', borderCollapse: 'collapse' }}>
             <TableHead columns={['#', 'Titre', 'Catégories', 'Statut', 'Vues', 'Auteur', 'Actions']} />
@@ -194,6 +212,7 @@ const PostList = ({ items, onPreview, onEdit, onDelete }) => (
                         key={post.ref}
                         post={post}
                         index={index + 1}
+                        isAdmin={isAdmin}
                         onPreview={onPreview}
                         onEdit={onEdit}
                         onDelete={onDelete}

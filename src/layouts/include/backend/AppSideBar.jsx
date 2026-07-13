@@ -11,8 +11,8 @@ const NAV_ITEMS = [
     { icon: "▪", label: "Commentaires", id: "comments", route: myroutes.comments },
     { icon: "▪", label: "Catégories", id: "categories", route: myroutes.categories },
     { icon: "▪", label: "Tags", id: "tags", route: myroutes.tags },
-    { icon: "▪", label: "Utilisateurs", id: "users", route: "" },
-    { icon: "▪", label: "Paramètres", id: "settings", route: "" },
+    { icon: "▪", label: "Utilisateurs", id: "users", route: myroutes.users },
+    { icon: "▪", label: "Paramètres", id: "settings", route: myroutes.settings },
 ];
 
 const AppSideBar = () => {
@@ -104,7 +104,7 @@ return (
                 {user?.name || "Administrateur"}
             </div>
             <div className="db-user-role">
-                {user?.roles?.[0] || "Admin"}
+                {user?.roles?.[0]?.libelle || "Admin"}
             </div>
             </div>
         )}

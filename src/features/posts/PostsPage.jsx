@@ -24,8 +24,9 @@ import PostForm from "./PostForm";
 import PostFilters from "./PostFilters";
 import PostPreviewModal from "../../components/shared/PostPreviewModal";
 import RejectReasonModal from "../../components/shared/RejectReasonModal";
+import { useAuth } from "../auth/hooks";
 
-// ── Constantes ────────────────────────────────────────────
+// ── Constantes
 const EMPTY_FORM = {
     title: "",
     excerpt: "",
@@ -76,6 +77,9 @@ const buildMultipartForm = (data) => {
 const PostsPage = () => {
     const [search, setSearch] = useState("");
     const [status, setStatus] = useState("");
+
+    const { user } = useAuth();
+    const isAdmin = user?.roles?.some(r => r.libelle === 'ADMIN');
 
     const list = usePaginatedList(
         (p) => postService.getAll(p, { search, status }),
@@ -265,6 +269,7 @@ const PostsPage = () => {
         ) : (
           <PostList
             items={list.items}
+            isAdmin={isAdmin}
             onPreview={handleOpenPreview}
             onEdit={handleOpenEdit}
             onDelete={handleDelete}
@@ -310,6 +315,7 @@ const PostsPage = () => {
         <PostPreviewModal
             open={previewOpen}
             post={previewPost}
+            isAdmin={isAdmin}
             onClose={() => { setPreviewOpen(false); setPreviewPost(null); }}
             onPublish={handlePublishFromPreview}
             onReject={handleOpenReject}

@@ -2,8 +2,9 @@
 import React from 'react';
 import { X, Eye, Calendar, User } from 'lucide-react';
 import Button from '../ui/Button';
+import '../../styles/article-body.css';
 
-const PostPreviewModal = ({ open, post, onClose, onPublish, onReject, publishing, rejecting }) => {
+const PostPreviewModal = ({ open, post, isAdmin, onClose, onPublish, onReject, publishing, rejecting }) => {
     if (!open || !post) return null;
 
     return (
@@ -174,14 +175,10 @@ const PostPreviewModal = ({ open, post, onClose, onPublish, onReject, publishing
                     )}
 
                     {/* Contenu */}
-                    <div style={{
-                        fontSize: '.9rem',
-                        color: '#1e293b',
-                        lineHeight: 1.8,
-                        whiteSpace: 'pre-wrap',
-                    }}>
-                        {post.content}
-                    </div>
+                    <div
+                        className="article-body article-body--sm"
+                        dangerouslySetInnerHTML={{ __html: post.content }}
+                    />
 
                     {/* Motif de rejet précédent */}
                     {post.rejection_reason && (
@@ -215,36 +212,38 @@ const PostPreviewModal = ({ open, post, onClose, onPublish, onReject, publishing
                     <Button variant="secondary" size="sm" onClick={onClose}>
                         Fermer
                     </Button>
-                    {post.status === 'draft' ? (
-                        <>
+                    {isAdmin && (
+                        post.status === 'draft' ? (
+                            <>
+                                <Button
+                                    variant="ghost"
+                                    size="sm"
+                                    loading={rejecting}
+                                    onClick={onReject}
+                                    style={{ background: '#fef2f2', color: '#dc2626', border: '1px solid #fecaca' }}
+                                >
+                                    Rejeter
+                                </Button>
+                                <Button
+                                    variant="primary"
+                                    size="sm"
+                                    loading={publishing}
+                                    onClick={onPublish}
+                                >
+                                    ✓ Publier
+                                </Button>
+                            </>
+                        ) : (
                             <Button
                                 variant="ghost"
                                 size="sm"
                                 loading={rejecting}
                                 onClick={onReject}
-                                style={{ background: '#fef2f2', color: '#dc2626', border: '1px solid #fecaca' }}
+                                style={{ background: '#fef3c7', color: '#d97706', border: '1px solid #fde68a' }}
                             >
-                                Rejeter
+                                ↓ Dépublier
                             </Button>
-                            <Button
-                                variant="primary"
-                                size="sm"
-                                loading={publishing}
-                                onClick={onPublish}
-                            >
-                                ✓ Publier
-                            </Button>
-                        </>
-                    ) : (
-                        <Button
-                            variant="ghost"
-                            size="sm"
-                            loading={rejecting}
-                            onClick={onReject}
-                            style={{ background: '#fef3c7', color: '#d97706', border: '1px solid #fde68a' }}
-                        >
-                            ↓ Dépublier
-                        </Button>
+                        )
                     )}
                 </div>
             </div>

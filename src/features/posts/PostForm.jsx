@@ -3,6 +3,7 @@ import { X } from "lucide-react";
 import Input from "../../components/ui/Input";
 import TextArea from "../../components/ui/TextArea";
 import CoverUpload from "../../components/shared/CoverUpload";
+import RichTextEditor from "../../components/ui/RichTextEditor";
 
     const labelStyle = {
     display: "block",
@@ -214,14 +215,11 @@ import CoverUpload from "../../components/shared/CoverUpload";
         />
 
         {/* Contenu */}
-        <TextArea
-        label="Contenu"
-        value={formData.content ?? ""}
-        onChange={(e) => set("content", e.target.value)}
-        placeholder="Corps de l'article…"
-        rows={8}
-        required
-        />
+        <RichTextEditor
+                value={formData.content ?? ''}
+                onChange={(html) => set('content', html)}
+                placeholder="Corps de l'article…"
+            />
 
         {/* Catégories + Tags */}
         <div

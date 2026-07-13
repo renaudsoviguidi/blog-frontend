@@ -15,8 +15,10 @@ const publicPostService = {
     getOne: (ref) => publicHttp.get(`${BASE}/${ref}`),
 
     getByCategory: (categoryRef, page = 1) =>
-    publicHttp.get(`${BASE}?page=${page}&status=published&category_ref=${categoryRef}`,
-),
+    publicHttp.get(`${BASE}?page=${page}&status=published&category_ref=${categoryRef}`,),
+
+    getTrending: () => publicHttp.get(`${BASE}/trending`),
+    getRecommended: () => publicHttp.get(`${BASE}/recommended`),
 };
 
 export default publicPostService;

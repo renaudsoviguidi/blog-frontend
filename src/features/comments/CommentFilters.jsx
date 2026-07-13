@@ -3,12 +3,12 @@ import Input from '../../components/ui/Input';
 import { Search } from 'lucide-react';
 
 const STATUS_OPTIONS = [
-    { value: '',         label: 'Tous les statuts' },
-    { value: 'pending',  label: 'En attente'       },
-    { value: 'approved', label: 'Approuvés'        },
-    { value: 'rejected', label: 'Rejetés'          },
-    { value: 'spam',     label: 'Spam'             },
-    { value: 'hidden',   label: 'Masqués'          },
+    { value: '', label: 'Tous les statuts' },
+    { value: 'pending', label: 'En attente' },
+    { value: 'approved', label: 'Approuvés' },
+    { value: 'rejected', label: 'Rejetés' },
+    { value: 'spam', label: 'Spam' },
+    { value: 'hidden', label: 'Masqués' },
 ];
 
 const CommentFilters = ({ search, status, onSearchChange, onStatusChange }) => (
